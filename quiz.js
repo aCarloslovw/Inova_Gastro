@@ -1,98 +1,109 @@
-const questions = [
+// Array de perguntas e respostas
+const quizData = [
     {
-        question: "Qual é a capital da França?",
-        answers: ["Roma", "Berlim", "Madri", "Paris"],
-        correct: 3
+        question: "Qual é a capital do Brasil?",
+        answers: ["Brasília", "Rio de Janeiro", "São Paulo", "Salvador"],
+        correct: "Brasília" // Alteramos para armazenar o texto correto em vez do índice
     },
     {
-        question: "Qual é o maior planeta do Sistema Solar?",
-        answers: ["Terra", "Marte", "Júpiter", "Saturno"],
-        correct: 2
+        question: "Qual é a maior floresta tropical do mundo?",
+        answers: ["Floresta Amazônica", "Floresta do Congo", "Floresta Boreal", "Floresta Negra"],
+        correct: "Floresta Amazônica"
     },
     {
-        question: "Quem pintou a Mona Lisa?",
-        answers: ["Van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Monet"],
-        correct: 1
+        question: "Qual é o planeta mais próximo do Sol?",
+        answers: ["Mercúrio", "Vênus", "Terra", "Marte"],
+        correct: "Mercúrio"
     }
 ];
 
-let currentQuestion = 0;
+let currentQuestionIndex = 0;
 let score = 0;
+let shuffledQuizData = [];
 
-// Exibir a pergunta atual e opções
+// Função para embaralhar um array (Fisher-Yates Shuffle)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Função para inicializar o quiz com perguntas e respostas embaralhadas
+function initializeQuiz() {
+    shuffledQuizData = shuffleArray([...quizData]); // Embaralha as perguntas
+    shuffledQuizData.forEach(question => {
+        question.answers = shuffleArray([...question.answers]); // Embaralha as alternativas de cada pergunta
+    });
+    loadQuestion();
+}
+
+// Função para carregar a questão atual e suas alternativas
 function loadQuestion() {
-    const question = questions[currentQuestion];
-    document.getElementById('question-text').innerText = question.question;
+    const questionData = shuffledQuizData[currentQuestionIndex];
+    const questionText = document.getElementById("question-text");
+    const answersList = document.getElementById("answers-list");
 
-    const answersList = document.getElementById('answers-list');
-    answersList.innerHTML = '';
-    question.answers.forEach((answer, index) => {
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `
-            <label>
-                <input type="radio" name="answer" value="${index}">
-                ${answer}
-            </label>
-        `;
-        answersList.appendChild(listItem);
+    questionText.innerText = questionData.question;
+    answersList.innerHTML = "";
+
+    questionData.answers.forEach(answer => {
+        const li = document.createElement("li");
+        const input = document.createElement("input");
+        const label = document.createElement("label");
+
+        input.type = "radio";
+        input.name = "answer";
+        input.value = answer;
+        label.innerText = answer;
+
+        li.appendChild(input);
+        li.appendChild(label);
+        answersList.appendChild(li);
     });
 }
 
-// Verificar a resposta e ir para a próxima pergunta
+// Função para verificar a resposta e passar para a próxima pergunta
 function nextQuestion() {
-    const form = document.getElementById('quizForm');
-    const selectedAnswer = form.answer.value;
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    if (!selectedAnswer) return;
 
-    if (selectedAnswer === "") {
-        alert("Selecione uma resposta!");
-        return;
-    }
+    const questionData = shuffledQuizData[currentQuestionIndex];
+    const selectedText = selectedAnswer.value; // Obtém o texto da resposta selecionada
 
-    // Verifica se a resposta está correta
-    if (parseInt(selectedAnswer) === questions[currentQuestion].correct) {
-        score++;
-    }
+    // Verifica se o texto da resposta selecionada é igual ao texto da resposta correta
+    if (selectedText === questionData.correct) score++;
 
-    // Avançar para a próxima pergunta ou finalizar o quiz
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < shuffledQuizData.length) {
         loadQuestion();
     } else {
         displayResult();
     }
 }
 
-// Mostrar o resultado final
+// Função para exibir o resultado
 function displayResult() {
-    const quizContainer = document.getElementById('quiz');
-    const resultMessage = document.getElementById('result');
-    const retryBtn = document.getElementById('retryBtn');
-    
-    quizContainer.style.display = 'none'; // Oculta as perguntas
+    const resultMessage = document.getElementById("result");
+    const retryBtn = document.getElementById("retryBtn");
 
-    if (score === questions.length) {
-        resultMessage.innerHTML = `<span class="victory">Parabéns! Você acertou todas as perguntas!</span>`;
-        retryBtn.style.display = 'none'; // Esconde o botão de tentar novamente
-        
-        // Redirecionar para a página de informações sobre Impressão 3D
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 2000); // Redireciona após 2 segundos
-    } else {
-        resultMessage.innerHTML = `<span class="failure">Você acertou ${score} de ${questions.length} perguntas. Tente novamente!</span>`;
-        retryBtn.style.display = 'block'; // Exibe o botão de tentar novamente
-    }
+    resultMessage.innerText = `Você acertou ${score} de ${shuffledQuizData.length} perguntas!`;
+    resultMessage.style.display = "block";
+    retryBtn.style.display = "block";
+    document.getElementById("quiz").style.display = "none";
 }
 
-// Reiniciar o quiz
+// Função para reiniciar o quiz
 function retryQuiz() {
+    currentQuestionIndex = 0;
     score = 0;
-    currentQuestion = 0;
-    document.getElementById('quiz').style.display = 'block';
-    document.getElementById('result').innerHTML = '';
-    document.getElementById('retryBtn').style.display = 'none';
-    loadQuestion();
+    document.getElementById("result").style.display = "none";
+    document.getElementById("retryBtn").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    initializeQuiz();
 }
 
-// Carregar a primeira pergunta ao abrir a página
-loadQuestion();
+// Inicia o quiz ao carregar a página
+initializeQuiz();

@@ -1,183 +1,26 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Pesquisa</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-    }
-    .question-section {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha de Quiz</title>
+    <link rel="stylesheet" href="quiz.css">
 </head>
 <body>
-  <h1>Formulário de Pesquisa</h1>
-
-  <form id="surveyForm">
-      <!-- Seção 1: Estilo de Vida -->
-      <div class="question-section">
-          <h2>1. Estilo de Vida</h2>
-          
-          <label>Qual é a sua rotina diária?</label>
-          <input type="radio" name="routine" value="1" onclick="calculatePoints()"> Sedentária
-          <input type="radio" name="routine" value="2" onclick="calculatePoints()"> Ativa
-          <input type="radio" name="routine" value="3" onclick="calculatePoints()"> Muito ativa
-  
-          <label>Com que frequência você pratica atividades físicas?</label>
-          <input type="radio" name="exercise" value="0" onclick="calculatePoints()"> Nunca
-          <input type="radio" name="exercise" value="1" onclick="calculatePoints()"> Ocasionalmente
-          <input type="radio" name="exercise" value="2" onclick="calculatePoints()"> Regularmente
-          <input type="radio" name="exercise" value="3" onclick="calculatePoints()"> Diariamente
-  
-          <label>Quantas horas de sono você costuma ter por noite?</label>
-          <input type="radio" name="sleep" value="0" onclick="calculatePoints()"> Menos de 5 horas
-          <input type="radio" name="sleep" value="1" onclick="calculatePoints()"> 5 a 7 horas
-          <input type="radio" name="sleep" value="2" onclick="calculatePoints()"> 7 a 9 horas
-          <input type="radio" name="sleep" value="3" onclick="calculatePoints()"> Mais de 9 horas
-  
-          <label>Você trabalha em um ambiente estressante?</label>
-          <input type="radio" name="stressEnv" value="0" onclick="calculatePoints()"> Sim
-          <input type="radio" name="stressEnv" value="1" onclick="calculatePoints()"> Não
-      </div>
-  
-      <!-- Seção 2: Necessidades de Saúde -->
-      <div class="question-section">
-          <h2>2. Necessidades de Saúde</h2>
-          
-          <label>Você tem alguma condição de saúde crônica?</label>
-          <input type="radio" name="healthCondition" value="2" onclick="calculatePoints()"> Nenhuma
-          <input type="radio" name="healthCondition" value="1" onclick="calculatePoints()"> Uma condição
-          <input type="radio" name="healthCondition" value="0" onclick="calculatePoints()"> Mais de uma condição
-  
-          <label>Você sofre de dores frequentes?</label>
-          <input type="checkbox" name="pain" value="2" onclick="calculatePoints()"> Nenhuma
-          <input type="checkbox" name="pain" value="1" onclick="calculatePoints()"> Dores de cabeça
-          <input type="checkbox" name="pain" value="1" onclick="calculatePoints()"> Dores musculares
-          <input type="checkbox" name="pain" value="1" onclick="calculatePoints()"> Outras
-  
-          <label>Como você descreveria seu nível de estresse?</label>
-          <input type="radio" name="stressLevel" value="3" onclick="calculatePoints()"> Baixo
-          <input type="radio" name="stressLevel" value="2" onclick="calculatePoints()"> Moderado
-          <input type="radio" name="stressLevel" value="1" onclick="calculatePoints()"> Alto
-          <input type="radio" name="stressLevel" value="0" onclick="calculatePoints()"> Muito alto
-  
-          <label>Você tem problemas para dormir?</label>
-          <input type="radio" name="sleepProblems" value="0" onclick="calculatePoints()"> Sim
-          <input type="radio" name="sleepProblems" value="1" onclick="calculatePoints()"> Não
-  
-          <label>Você costuma se sentir cansado durante o dia?</label>
-          <input type="radio" name="tired" value="0" onclick="calculatePoints()"> Sim
-          <input type="radio" name="tired" value="1" onclick="calculatePoints()"> Não
-      </div>
-  
-      <!-- Seção 3: Preferências Pessoais -->
-      <div class="question-section">
-          <h2>3. Preferências Pessoais</h2>
-          
-          <label>Você prefere aromas cítricos, florais, herbais ou amadeirados?</label>
-          <input type="checkbox" name="aromaPreference" value="citricaFlorais" onclick="calculatePoints()"> Cítricos
-          <input type="checkbox" name="aromaPreference" value="citricaFlorais" onclick="calculatePoints()"> Florais
-          <input type="checkbox" name="aromaPreference" value="herbaisAmadeiradas" onclick="calculatePoints()"> Herbais
-          <input type="checkbox" name="aromaPreference" value="herbaisAmadeiradas" onclick="calculatePoints()"> Amadeirados
-  
-          <label>Qual é o seu objetivo principal ao usar óleos essenciais?</label>
-          <input type="radio" name="goal" value="melhorarHumor" onclick="calculatePoints()"> Melhorar o humor
-          <input type="radio" name="goal" value="reduzirEstresse" onclick="calculatePoints()"> Reduzir o estresse
-          <input type="radio" name="goal" value="aumentarEnergia" onclick="calculatePoints()"> Aumentar a energia
-          <input type="radio" name="goal" value="melhorarSono" onclick="calculatePoints()"> Melhorar o sono
-      </div>
-
-      <fieldset>
-        <legend>4. Informações Adicionais</legend>
-        
-        <label>Você já usou óleos essenciais antes?</label><br>
-        <input type="radio" name="usedOils" value="1" onclick="calculatePoints()"> Sim<br>
-        <input type="radio" name="usedOils" value="0" onclick="calculatePoints()"> Não<br><br>
-        
-        <label>Se sim, quais foram os seus favoritos?</label><br>
-        <input type="text" name="favoriteOils"><br><br>
-        
-        <label>Você tem animais de estimação em casa?</label><br>
-        <input type="radio" name="petsAtHome" value="0" onclick="calculatePoints()"> Sim<br>
-        <input type="radio" name="petsAtHome" value="1" onclick="calculatePoints()"> Não<br><br>
-      </fieldset>
-      
-      
-  
-      <h3>Total de Pontos: <span id="totalPoints">0</span></h3>
-      <button type="button" onclick="generateRecommendation()">Gerar Recomendação</button>
-  
-      <!-- Elemento para exibir a recomendação -->
-      <h3>Recomendação: <span id="recommendation"></span></h3>
-  </form>
-  
-  <script>
-    function calculatePoints() {
-      let total = 0;
-      const form = document.forms['surveyForm'];
-  
-      const inputs = form.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked');
-      inputs.forEach(input => {
-          total += parseInt(input.value) || 0;
-      });
-  
-      document.getElementById("totalPoints").innerText = total;
-      return total;
-    }
-  
-    function getRecommendation(goal, score, preference) {
-      const recommendations = {
-          melhorarHumor: {
-              citricaFlorais: score >= 20 
-                  ? "Laranja doce + Limão + Bergamota ou Lavanda + Ylang Ylang + Gerânio" 
-                  : "Lavanda + Laranja doce + Jasmim + Rosa",
-              herbaisAmadeiradas: score >= 20 
-                  ? "Alecrim + Eucalipto + Cedro + Manjerona" 
-                  : "Sândalo + Cedro + Lavanda + Hortelã-pimenta"
-          },
-          reduzirEstresse: {
-              citricaFlorais: score >= 20 
-                  ? "Bergamota + Neroli + Ylang Ylang + Lavanda" 
-                  : "Lavanda + Rosa + Laranja doce + Camomila",
-              herbaisAmadeiradas: score >= 20 
-                  ? "Lavanda + Manjericão + Alecrim ou Cedro + Sândalo + Vetiver" 
-                  : "Cedro + Sândalo + Patchouli + Lavanda"
-          },
-          aumentarEnergia: {
-              default: score < 20 
-                  ? "Toranja + Limão Siciliano + Tangerina ou Hortelã-pimenta + Eucalipto + Alecrim" 
-                  : "Alecrim + Hortelã-pimenta + Limão + Canela"
-          },
-          melhorarSono: {
-              independente: score < 20 
-                  ? "Lavanda + Camomila + Cedro + Sândalo" 
-                  : "Lavanda + Camomila Romana + Neroli ou Cedro + Vetiver + Sândalo"
-          }
-      };
-  
-      return recommendations[goal]?.[preference] || recommendations[goal]?.default || "Recomendação não encontrada";
-    }
-  
-    function generateRecommendation() {
-      const score = calculatePoints();
-      const form = document.forms["surveyForm"];
-  
-      const goal = form.querySelector('input[name="goal"]:checked').value;
-      const preference = form.querySelector('input[name="aromaPreference"]:checked')?.value || 'independente';
-  
-      const recommendation = getRecommendation(goal, score, preference);
-      document.getElementById("recommendation").innerText = recommendation;
-    }
-  </script>
+    <div class="quiz-container">
+        <h2>Trilha de Quiz</h2>
+        <div id="quiz">
+            <div class="question" id="question-text"></div>
+            <form id="quizForm">
+                <ul class="answers" id="answers-list">
+                    <!-- Opções de respostas vão aqui -->
+                </ul>
+                <button type="button" class="submit-btn" onclick="nextQuestion()">Enviar</button>
+            </form>
+        </div>
+        <div id="result" class="result-message"></div>
+        <button id="retryBtn" class="retry-btn" style="display:none;" onclick="retryQuiz()">Tente novamente</button>
+    </div>
+    <script src="quiz.js"></script>
 </body>
 </html>
